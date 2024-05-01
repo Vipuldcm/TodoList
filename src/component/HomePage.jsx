@@ -10,7 +10,7 @@ const HomePage = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     const newTask = {
-      id: new Date().getTime.toString(),
+      id: Math.random().toString(),
       taskName: taskName,
       desc: desc,
     };
@@ -19,17 +19,33 @@ const HomePage = () => {
     });
   };
   const removeTask = (id) => {
-    console.log("clicked");
-    setTaskList(
+    console.log(id);
+    const filteredList = 
       taskList.filter((task) => {
-        return task.id !== id;
+      return task.id != id;
       })
-    );
+      setTaskList(filteredList);
+    
+  };
+  const editTask = (id) => {
+    console.log(id);
+    taskList.map((task) => {
+
+      if(task.id == id)
+      {
+        task.taskName =taskName;
+        task.desc = desc;
+      }
+    })
+      setTaskList(taskList);
+    
   };
 
+
+console.log(taskList);
   return (
     <>
-      <form on onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit}>
         <div>
           <label htmlFor="taskName"> Task Name </label>
           <input
@@ -56,10 +72,11 @@ const HomePage = () => {
       {taskList.map((task, index) => {
         return (
           <div key={index}>
-            <h1>{task.taskName}</h1>
-            <h2>{task.desc}</h2>
-            <button id="remove-btn" onClick={(event) => removeTask(task.id)}>
-              -
+            <input type = "text" value = {task.taskName}></input>
+            <input type = "text" value = {task.desc}></input>
+           
+            <button id="remove-btn" onClick={() => removeTask(task.id)}>-</button>
+            <button id="edit-btn" onClick={() => editTask(task.id)}>&#9998;
             </button>
           </div>
         );
